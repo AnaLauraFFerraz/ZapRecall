@@ -5,7 +5,7 @@ export default function Footer(props) {
     return (
         <FooterContainer>
             <div data-test="footer" className="concluded">
-                /{props.cardsNum} Concluídos
+                {props.contFinished}/{props.cardsNum} Concluídos
             </div>
         </FooterContainer>
     )

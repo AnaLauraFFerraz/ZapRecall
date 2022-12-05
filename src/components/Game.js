@@ -16,12 +16,13 @@ export default function Game() {
         { question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
     ];
     const cardsNum = cards.length;
+    const [contFinished, setContFinished] = useState(0);
 
     return (
         <ScreenContainer>
             <Logo />
-            <Deck cards={cards}/>
-            <Footer cardsNum={cardsNum} />
+            <Deck cards={cards} contFinished={contFinished} setContFinished={setContFinished} />
+            <Footer cardsNum={cardsNum} contFinished={contFinished} />
         </ScreenContainer>
     )
 }

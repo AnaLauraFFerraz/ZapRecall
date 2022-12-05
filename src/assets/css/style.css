@@ -1,0 +1,25 @@
+
+/* Você vai precisar trocar a cor dos botões e alguns textos!
+  VERDE = "#2FBE34"
+  AMARELO = "#FF922E"
+  VERMELHO = "#FF3030"
+  CINZA = "#333333" 
+*/
+
+.container-botoes > button {
+  width: 90px;
+  font-family: 'Recursive';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #FFFFFF;
+  background: blue;
+  border-radius: 5px;
+  border: 1px solid blue;
+  padding:5px;
+}
