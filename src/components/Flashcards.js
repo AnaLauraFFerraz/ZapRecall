@@ -11,35 +11,45 @@ export default function Flashcards(props) {
     const [opened, setOpened] = useState(false);
     const [answered, setAnswered] = useState(false);
     const [finished, setFinished] = useState(false);
-    const [status, setStatus] = useState(""); // right, parcial, wrong
+    const [status, setStatus] = useState("default"); // right, parcial, wrong
 
     function handleClicks() {
         let finishedIcon
 
-        if (opened) {
-            setOpened(true);
+        if (!opened && !answered && !finished) {
             return (
-                <Question>
-                    <p data-test="flashcard-text">{props.card.question}</p>
+                <ClosedQuestion status={status}>
+                    <p data-test="flashcard-text">Pergunta {props.id + 1}</p>
+                    <img data-test="play-btn" src={playIcon} alt="play icon" onClick={() => setOpened(true)} />
+                </ClosedQuestion>
+            )
+        }
+        if (opened) {
+            return (
+                <OpenedQuestion>
+                    <p data-test="flashcard-text">{props.question}</p>
                     <img
                         src={turnIcon}
                         alt="Virar carta"
                         data-test="turn-btn"
-                        onClick={() => setAnswered(true)}
+                        onClick={() => {
+                            setAnswered(true);
+                            setOpened(false)
+                        }}
                     />
-                </Question>
+                </OpenedQuestion>
             )
         }
         if (answered) {
             return (
-                <Question>
-                    <p data-test="flashcard-text">{props.card.answer}</p>
+                <OpenedQuestion>
+                    <p data-test="flashcard-text">{props.answer}</p>
                     <ButtonsContainer>
-                        <Button data-test="no-btn" color="#2FBE34" onClick={() => { handleFinished("right") }}>Não lembrei</Button>
+                        <Button data-test="no-btn" color="#FF3030" onClick={() => { handleFinished("wrong") }}>Não lembrei</Button>
                         <Button data-test="partial-btn" color="#FF922E" onClick={() => { handleFinished("parcial") }}>Quase não lembrei</Button>
-                        <Button data-test="zap-btn" color="#2FBE34" onClick={() => { handleFinished("wrong") }}>Zap!</Button>
+                        <Button data-test="zap-btn" color="#2FBE34" onClick={() => { handleFinished("right") }}>Zap!</Button>
                     </ButtonsContainer>
-                </Question>
+                </OpenedQuestion>
             )
         }
         if (finished) {
@@ -49,22 +59,21 @@ export default function Flashcards(props) {
                 finishedIcon = <img data-test="parcial-icon" src={parcialIcon} alt="parcial icon" />;
             } else if (status === "wrong") {
                 finishedIcon = <img data-test="no-icon" src={wrongIcon} alt="wrong icon" />;
-            } else {
-                finishedIcon = <img data-test="play-btn" src={playIcon} alt="play icon" />;
             }
 
             return (
-                <Question>
+                <ClosedQuestion status={status}>
                     <p data-test="flashcard-text">Pergunta {props.id + 1}</p>
                     {finishedIcon}
-                </Question>
+                </ClosedQuestion>
             )
         }
     }
 
     function handleFinished(status) {
+        setAnswered(false);
         setFinished(true);
-        setStatus(status)
+        setStatus(status);
         props.setContFinished(contFinished => contFinished + 1);
     }
 
@@ -73,7 +82,7 @@ export default function Flashcards(props) {
     )
 }
 
-const Question = styled.div`
+const ClosedQuestion = styled.div`
     width: 300px;
     height: 35px;
     background-color: #FFFFFF;
@@ -90,33 +99,66 @@ const Question = styled.div`
         font-weight: 700;
         font-size: 16px;
         line-height: 19px;
-        color: ${props => props.color};
-        text-decoration: ${props => props.finished === true ? "line-through" : "none"};
+        text-decoration: ${props => props.status === "default" ? "none" : "line-through"};
+        color: ${props => {
+        switch (props.status) {
+            case "right":
+                return "#2FBE34"
+            case "parcial":
+                return "#FF922E"
+            case "wrong":
+                return "#FF3030"
+            default:
+                return "#333333"
+        }
+    }}
     };
 `
-const SelectCard = styled.button`
-    cursor: pointer;
-    border:none;
+const OpenedQuestion = styled.div`
+    width: 300px;
+    margin: 12px;
+    padding: 15px;
+    min-height: 100px;
+    background: #FFFFD5;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-family: 'Recursive';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #333333;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    img{
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
 `
 const ButtonsContainer = styled.div`
     display: flex;
-    width: 90%;
     justify-content: space-between;
-    margin: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-top: 10px;
 `
 const Button = styled.button`
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 85.17px;
     height: 45px;
+    padding:5px;
+    background: ${props => props.color};
+    border: 1px solid ${props => props.color};
     border-radius: 5px;
-    border:none;
-    background-color:#FF922E;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: #FFFFFF;
     text-align: center;
+    font-family: 'Recursive';
+    font-style: normal;
+    font-weight: 400;
     font-size: 12px;
+    line-height: 14px;
+    cursor: pointer;        
 `

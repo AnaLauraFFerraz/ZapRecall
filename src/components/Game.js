@@ -28,13 +28,13 @@ export default function Game() {
 }
 
 const ScreenContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    min-height: 100vh;
-    align-items: center;
-    background-color: #FB6B6B;
-    margin: 0px;
-    padding: 0px;
-    padding-bottom: 200px;
+  background-color: #FB6B6B;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+  padding-bottom: 200px;
 `
