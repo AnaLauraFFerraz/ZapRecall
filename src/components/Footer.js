@@ -4,7 +4,7 @@ import styled from "styled-components";
 export default function Footer(props) {
     return (
         <FooterContainer>
-            <div data-test="footer" className="concluded">
+            <div className="concluded">
                 {props.contFinished}/{props.cardsNum} Concluídos
             </div>
         </FooterContainer>
@@ -26,7 +26,7 @@ const FooterContainer = styled.footer`
   font-size: 18px;
   color: #333333;
   padding: 10px;
-  > .concluded {
+  .concluded {
     display: flex;
     width: 80%;
     justify-content: center;

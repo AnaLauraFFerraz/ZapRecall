@@ -19,19 +19,23 @@ export default function Flashcards(props) {
         if (!opened && !answered && !finished) {
             return (
                 <ClosedQuestion status={status}>
-                    <p data-test="flashcard-text">Pergunta {props.id + 1}</p>
-                    <img data-test="play-btn" src={playIcon} alt="play icon" onClick={() => setOpened(true)} />
+                    <p>Pergunta {props.id + 1}</p>
+                    <img
+                        src={playIcon}
+                        alt="Play"
+                        onClick={() =>
+                            setOpened(true)}
+                    />
                 </ClosedQuestion>
             )
         }
         if (opened) {
             return (
                 <OpenedQuestion>
-                    <p data-test="flashcard-text">{props.question}</p>
+                    <p>{props.question}</p>
                     <img
                         src={turnIcon}
-                        alt="Virar carta"
-                        data-test="turn-btn"
+                        alt="Ver resposta"
                         onClick={() => {
                             setAnswered(true);
                             setOpened(false)
@@ -43,27 +47,27 @@ export default function Flashcards(props) {
         if (answered) {
             return (
                 <OpenedQuestion>
-                    <p data-test="flashcard-text">{props.answer}</p>
-                    <ButtonsContainer>
-                        <Button data-test="no-btn" color="#FF3030" onClick={() => { handleFinished("wrong") }}>Não lembrei</Button>
-                        <Button data-test="partial-btn" color="#FF922E" onClick={() => { handleFinished("parcial") }}>Quase não lembrei</Button>
-                        <Button data-test="zap-btn" color="#2FBE34" onClick={() => { handleFinished("right") }}>Zap!</Button>
-                    </ButtonsContainer>
+                    <p>{props.answer}</p>
+                    <div className="buttonsContainer">
+                        <Button color="#FF3030" onClick={() => { handleFinished("wrong") }} alt="Não lembrei">Não lembrei</Button>
+                        <Button color="#FF922E" onClick={() => { handleFinished("parcial") }} alt="Quase não lembrei">Quase não lembrei</Button>
+                        <Button color="#2FBE34" onClick={() => { handleFinished("right") }} alt="Zap!">Zap!</Button>
+                    </div>
                 </OpenedQuestion>
             )
         }
         if (finished) {
             if (status === "right") {
-                finishedIcon = <img data-test="zap-icon" src={rightIcon} alt="right icon" />;
+                finishedIcon = <img src={rightIcon} alt="Zap!" />;
             } else if (status === "parcial") {
-                finishedIcon = <img data-test="parcial-icon" src={parcialIcon} alt="parcial icon" />;
+                finishedIcon = <img src={parcialIcon} alt="Quase não lembrei" />;
             } else if (status === "wrong") {
-                finishedIcon = <img data-test="no-icon" src={wrongIcon} alt="wrong icon" />;
+                finishedIcon = <img src={wrongIcon} alt="Não lembrei" />;
             }
 
             return (
                 <ClosedQuestion status={status}>
-                    <p data-test="flashcard-text">Pergunta {props.id + 1}</p>
+                    <p>Pergunta {props.id + 1}</p>
                     {finishedIcon}
                 </ClosedQuestion>
             )
@@ -78,7 +82,7 @@ export default function Flashcards(props) {
     }
 
     return (
-        <div data-test="flashcard">{handleClicks()}</div>
+        <div>{handleClicks()}</div>
     )
 }
 
@@ -132,16 +136,16 @@ const OpenedQuestion = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    img{
+    img {
         position: absolute;
         bottom: 10px;
         right: 10px;
+    };
+    .buttonsContainer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
     }
-`
-const ButtonsContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
 `
 const Button = styled.button`
     display: flex;
